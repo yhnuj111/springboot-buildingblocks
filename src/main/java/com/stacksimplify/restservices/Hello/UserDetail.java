@@ -4,8 +4,6 @@ public class UserDetail {
 	private String fname;
 	private String lname;
 	private String city;
-	
-	
 	// Fields
 	public UserDetail(String fname, String lname, String city) {
 		this.fname = fname;
