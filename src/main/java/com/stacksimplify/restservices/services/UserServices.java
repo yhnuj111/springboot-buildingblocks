@@ -54,7 +54,7 @@ public class UserServices {
 			throw new UserNotFoundException("User not found, please provide the correct id...");
 		}
 		
-		user.setId(id);
+		user.setUserId(id);
 		return userRepository.save(user);
 	}
 	

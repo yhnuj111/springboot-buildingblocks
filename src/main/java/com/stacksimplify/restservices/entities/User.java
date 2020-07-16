@@ -11,33 +11,34 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.springframework.hateoas.RepresentationModel;
+
 // Entity
 @Entity
-@Table(name="user")
-public class User {
+@Table(name = "user")
+public class User extends RepresentationModel<User>{
 	@Id
 	@GeneratedValue
-	private Long id;
-	
-	
-	@Column(name="USER_NAME", length=50, nullable=false, unique=true)
+	private Long userId;
+
+	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
 	@NotEmpty(message = "Username cannot be empty. Please provide username..")
 	private String username;
 
-	@Size(min=2, message = "Firstname should have at least 2 characters...")
-	@Column(name="FIRST_NAME", length=50, nullable=false)
+	@Size(min = 2, message = "Firstname should have at least 2 characters...")
+	@Column(name = "FIRST_NAME", length = 50, nullable = false)
 	private String fname;
 
-	@Column(name="LAST_NAME", length=50, nullable=false)
+	@Column(name = "LAST_NAME", length = 50, nullable = false)
 	private String lname;
 
-	@Column(name="EMAIL", length=50, nullable=false)
+	@Column(name = "EMAIL", length = 50, nullable = false)
 	private String email;
 
-	@Column(name="ROLE", length=50, nullable=false)
+	@Column(name = "ROLE", length = 50, nullable = false)
 	private String role;
 
-	@Column(name="SSN", length=50, nullable=false, unique=true)
+	@Column(name = "SSN", length = 50, nullable = false, unique = true)
 	private String ssn;
 
 	@OneToMany(mappedBy = "user")
@@ -57,23 +58,26 @@ public class User {
 	}
 
 	// Fields constructor
-	public User(Long id, String username, String fname, String lname, String email, String role, String ssn) {
-		this.id = id;
+	public User(Long userId, @NotEmpty(message = "Username cannot be empty. Please provide username..") String username,
+			@Size(min = 2, message = "Firstname should have at least 2 characters...") String fname, String lname,
+			String email, String role, String ssn, List<Order> orders) {
+		super();
+		this.userId = userId;
 		this.username = username;
 		this.fname = fname;
 		this.lname = lname;
 		this.email = email;
 		this.role = role;
 		this.ssn = ssn;
+		this.orders = orders;
 	}
 
-	// Getters and Setters
-	public Long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -123,12 +127,11 @@ public class User {
 	public void setSsn(String ssn) {
 		this.ssn = ssn;
 	}
-	
-	// to string
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", fname=" + fname + ", lname=" + lname + ", email="
-				+ email + ", role=" + role + ", ssn=" + ssn + "]";
+		return "User [userId=" + userId + ", username=" + username + ", fname=" + fname + ", lname=" + lname
+				+ ", email=" + email + ", role=" + role + ", ssn=" + ssn + ", orders=" + orders + "]";
 	}
 
 }
