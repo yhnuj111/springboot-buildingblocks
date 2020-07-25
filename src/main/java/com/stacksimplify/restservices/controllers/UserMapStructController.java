@@ -21,8 +21,8 @@ public class UserMapStructController {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private UserMapper userMapper;
+//	@Autowired
+//	private UserMapper userMapper;
 //	
 //	@GetMapping
 //	public List<UserMsDto> getAllUserDtos() {

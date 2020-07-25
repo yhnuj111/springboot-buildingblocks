@@ -55,10 +55,25 @@ public class User extends RepresentationModel<User> {
 	@Column(name = "SSN", length = 50, nullable = false, unique = true)
 	@JsonView(Views.Internal.class)
 	private String ssn;
-
+	
 	@OneToMany(mappedBy = "user")
 	@JsonView(Views.Internal.class)
 	private List<Order> orders;
+	
+	@Column(name="ADDRESS")
+	private String address;
+	
+	
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	
 
 	public List<Order> getOrders() {
 		return orders;
@@ -74,9 +89,10 @@ public class User extends RepresentationModel<User> {
 	}
 
 	// Fields constructor
+	
 	public User(Long userId, @NotEmpty(message = "Username cannot be empty. Please provide username..") String username,
 			@Size(min = 2, message = "Firstname should have at least 2 characters...") String fname, String lname,
-			String email, String role, String ssn, List<Order> orders) {
+			String email, String role, String ssn, String address, List<Order> orders) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -85,12 +101,15 @@ public class User extends RepresentationModel<User> {
 		this.email = email;
 		this.role = role;
 		this.ssn = ssn;
+		this.address = address;
 		this.orders = orders;
 	}
-
+	
 	public Long getUserId() {
 		return userId;
 	}
+
+	
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
@@ -147,7 +166,10 @@ public class User extends RepresentationModel<User> {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", fname=" + fname + ", lname=" + lname
-				+ ", email=" + email + ", role=" + role + ", ssn=" + ssn + ", orders=" + orders + "]";
+				+ ", email=" + email + ", role=" + role + ", ssn=" + ssn + ", address=" + address + ", orders=" + orders
+				+ "]";
 	}
+
+	
 
 }
