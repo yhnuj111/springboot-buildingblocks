@@ -8,11 +8,10 @@ public class UserDtoV1 {
 	
 	private Long userId;
 
-	
 	private String username;
-
 	
 	private String fname;
+	
 	private String lname;
 
 	private String email;

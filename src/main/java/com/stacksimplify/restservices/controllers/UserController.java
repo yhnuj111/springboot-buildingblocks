@@ -1,5 +1,6 @@
 package com.stacksimplify.restservices.controllers;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +30,11 @@ import com.stacksimplify.restservices.exceptions.UserNameNotFoundException;
 import com.stacksimplify.restservices.exceptions.UserNotFoundException;
 import com.stacksimplify.restservices.services.UserServices;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 // Controller -
+@Api(tags = "User Management RESTful Services", value = "UserController", description = "Controller for User mangement")
 @RestController
 @Validated
 @RequestMapping(value = "/users")
@@ -37,13 +43,15 @@ public class UserController {
 	private UserServices userService;
 
 	// getAllUsers methods
-	@GetMapping
+	@ApiOperation(value = "Retrieve list of Users")
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<User> getAllUsers() {
 		return userService.getAllUsers();
 	}
 
 	// create user method
 	// RequestBody
+	@ApiOperation(value = "Create a new user")
 	@PostMapping
 	public ResponseEntity<Void> createUser(@Valid @RequestBody User user, UriComponentsBuilder builder) {
 		try {
@@ -58,9 +66,10 @@ public class UserController {
 
 	// get User by ID
 	@GetMapping("/{id}")
-	public Optional<User> getUserById(@PathVariable("id") @Min(1) Long id) {
+	public User getUserById(@PathVariable("id") @Min(1) Long id) {
 		try {
-			return userService.getUserById(id);
+			Optional<User> useropt = userService.getUserById(id);
+			return useropt.get();
 		} catch (UserNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
